@@ -1,6 +1,15 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
+#include <cstdlib>
+#include <time.h>
+#include <string>
+
+int randoms(){
+    srand(time(NULL));
+    int rand_num = rand() % 3 + 1;
+    return rand_num;
+}
 
 int main(int argc, char* argv[]) {
     // Initialize SDL
@@ -23,9 +32,24 @@ int main(int argc, char* argv[]) {
     // Create an SDL renderer
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
+    std::string media_path = "media/";
+    std::string image_name = "rock.png";
+    int rn = randoms();
+
+    switch(rn){
+        case 1:
+            image_name = "rock.png";
+            break;
+        case 2:
+            image_name = "paper.png";
+            break;
+        case 3:
+            image_name = "scissors.png";
+            break;
+    }
 
     // Load the image
-    SDL_Surface* imageSurface = IMG_Load("/Users/joliphant/Documents/RockPaperScissors_SDL2/media/rock.png");
+    SDL_Surface* imageSurface = IMG_Load((media_path + image_name).c_str());
     if (!imageSurface) {
         std::cerr << "IMG_Load Error: " << IMG_GetError() << std::endl;
         SDL_DestroyRenderer(renderer);
